@@ -1,5 +1,5 @@
 const { Schema,model } = require('mongoose')
-
+const {createToken,validateToken}= require('../services/authentication')
 
 const {createHmac, randomBytes}= require('crypto')
 
@@ -52,7 +52,7 @@ next();
 });
 
 // to create a virtual function for matching password bcoz pass is a hash pass
-userSchema.static('matchPassword', async function(email,password){
+userSchema.static('matchPasswordAndGeneratetoken', async function(email,password){
     const user= await this.findOne({email});
     if(!user)  throw new Error('user not found');
 
@@ -63,7 +63,14 @@ userSchema.static('matchPassword', async function(email,password){
 
    const userProvidedPass = createHmac('sha256',salt).update(password).digest('hex');
    if(hashedPass !== userProvidedPass) throw new Error('Incorrect pass');
-   return user;
+   
+   
+   //return user tb ho rha tha jb hume token nahi dena tha
+   //return user;
+
+   // here i have created token and returned the encoded string to client
+   const token= createToken(user);
+   return token;
 
 });
 

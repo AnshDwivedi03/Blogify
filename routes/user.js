@@ -15,9 +15,15 @@ router.get('/signup',(req,res)=>{
 
 router.post('/signin', async(req,res)=>{
   const {email,password}= req.body;
-  const user= await User.matchPassword(email,password);
-  console.log('user',user);
-    return res.redirect('/');
+  try{
+  const token= await User.matchPasswordAndGeneratetoken(email,password);
+
+//cookie mei dete h  yha pr token ka naam h cookie
+return res.cookie('Cookie',token).redirect('/');
+  }
+  catch(error){
+        return res.render('signin',{error: "Incorrect pass or email"});
+  }
 
 });
 
@@ -28,6 +34,10 @@ router.post('/signup',async(req,res)=>{
         email,password
     });
     return res.redirect('/');
+});
+
+router.get("/logout",(req,res)=>{
+res.clearCookie('Cookie').redirect('/');
 });
 
 
