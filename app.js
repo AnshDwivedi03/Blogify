@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express =require('express');
 const path=require('path');
 const app= express();
@@ -7,6 +8,7 @@ const mongoose= require('mongoose')
 const cookieParser= require('cookie-parser');
 const { checkforauthcookie } = require('./middlewares/authentication');
 const Blog=require('./models/blogs')
+
 
 
 // set the view engine to ejs
@@ -25,9 +27,11 @@ app.use(checkforauthcookie('Cookie'));
 app.use(express.static(path.resolve('./public')));
 
 
-//connecting mongodb
-mongoose.connect('mongodb://localhost:27017/blogify').then(e=> console.log('Mongodb connected'));
+//connecting mongodb static
+//mongoose.connect('mongodb://localhost:27017/blogify').then(e=> console.log('Mongodb connected'));
 
+//connecting mongodb dynamic
+mongoose.connect(process.env.MONGO_URL).then(e=> console.log('Mongodb connected'));
 
 
 
@@ -49,7 +53,7 @@ app.use('/blog',blogRoutes);
 
 
 
-PORT=3000;
+const PORT= process.env.PORT || 3000;
 app.listen(PORT,()=>{
  console.log(` Server is running at port, ${PORT}`);
 });
