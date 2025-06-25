@@ -10,7 +10,7 @@ It features secure authentication using HMAC for hashed passwords, role-based ac
 - 🧑‍💻 Role-based authorization (authors vs. readers)
 - 📝 Create, edit, and delete blog posts
 - 🖼️ Responsive and user-friendly UI
-- ☁️ Deployed on AWS EC2 for scalability & reliability
+- ☁️ Deployed on Render 
 
 ---
 
@@ -19,7 +19,7 @@ It features secure authentication using HMAC for hashed passwords, role-based ac
 - **Database**: MongoDB (Mongoose)
 - **Frontend**: EJS, CSS, JS
 - **Auth**: HMAC hashing for password security, `jsonwebtoken` for sessions
-- **Deployment**: AWS EC2
+- **Deployment**: Render
 
 ---
 
